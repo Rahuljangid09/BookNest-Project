@@ -71,6 +71,8 @@ app.use((req, res, next) => {
   next();
 });
 
+
+
 app.set("view engine", "ejs");
 app.engine("ejs", ejsMate);
 app.set("views", path.join(__dirname, "views"));
@@ -81,6 +83,10 @@ app.use(express.static(path.join(__dirname, "/public")));
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
+
+app.get("/", (req, res) => {
+  res.redirect("/listings"); // or your main route
+});
 
 //error handling middleware
 app.use((err, req, res, next) => {
