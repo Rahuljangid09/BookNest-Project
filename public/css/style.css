@@ -1,0 +1,140 @@
+body{
+    font-family: "Plus Jakarta Sans", sans-serif !important;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+.container{
+  flex: 1;
+  
+}
+
+/* index */
+/* Styling the all-lists wrapper */
+.all-lists {
+  max-width: 96%;
+  margin: 0 auto;
+  padding: 1rem 0rem;
+}
+
+.listing-link{
+  text-decoration: none;
+}
+
+/* Space under the heading */
+.all-lists h3 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #212529;
+}
+
+/* Card styling */
+.card-listing {
+  border: 1px solid #e2e2e2;
+  border-radius: 0.75rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+.card-img-overlay{
+  background-color: white;
+  opacity: 0;
+}
+.card-img-overlay:hover{
+  background-color: white;
+  opacity: 0.2;
+}
+
+/* Hover effect for cards */
+.card-listing:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Card image */
+.card-img-top {
+  height: 230px;
+  object-fit: cover;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Card body text */
+.card-text {
+  font-size: 1rem;
+  color: #333;
+  margin: 0;
+  padding-top: 0.5rem;
+}
+
+/* Responsive text alignment if needed */
+@media (max-width: 576px) {
+  .card-text {
+    text-align: center;
+  }
+}
+
+
+
+
+/* navbar */
+
+.navbar{
+    height: 5rem;
+    background-color: white;
+}
+.fa-compass{
+    font-size: 2rem;
+    color: #fe424d;
+
+}
+.nav-link{
+    color: #222222 !important;
+}
+
+/* footer */
+.f-info{
+    height: 8rem;
+    display: flex;
+    background-color: rgb(221, 221, 245);
+    flex-wrap: wrap;
+    text-align: center;
+}
+.f-info-links a{
+    text-decoration: none;
+    color: #222222;
+}
+.f-info-links a:hover{
+    text-decoration: underline;
+}
+.f-info-links , .f-info-social , .f-info-name{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content:center ;
+   
+}
+.f-info-social i{
+    font-size: 1.2rem;
+    margin-right: 1rem;
+}
+
+
+/* Show page */
+
+.show-img{
+  height: 35vh;
+  border-radius: 10px;
+}
+
+.show-btns{
+  display: flex;
+}
+
+/* edit page */
+.edit-image {
+  width: 300px;        /* adjust as needed */
+  height: 200px;       /* adjust as needed */
+  object-fit: cover;   /* prevents distortion */
+  border-radius: 8px;  /* optional */
+}
