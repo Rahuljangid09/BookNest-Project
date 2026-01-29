@@ -1,0 +1,8 @@
+.show-img {
+  height: 35vh;
+  border-radius: 10px;
+}
+
+.show-btns {
+  display: flex;
+}

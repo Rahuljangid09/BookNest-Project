@@ -1,8 +1,20 @@
 const Listing = require("../Models/listings.js");
 
 module.exports.index = async (req, res) => {
-  const allListings = await Listing.find({});
-  res.render("listings/index.ejs", { allListings });
+  const { search } = req.query;
+  let allListings;
+  if (search) {
+    allListings = await Listing.find({
+      $or: [
+        { country: { $regex: search, $options: "i" } },
+        { location: { $regex: search, $options: "i" } },
+      ]
+    });
+  } else {
+    allListings = await Listing.find({});
+  }
+
+  res.render("listings/index.ejs", { allListings,search });
 };
 
 module.exports.createNewForm = (req, res) => {
@@ -34,7 +46,7 @@ module.exports.createEditForm = async (req, res) => {
   const listing = await Listing.findById(id);
 
   let originalImage = listing.image.url;
-  originalImage.replace("/upload","/upload/h_300,w_250")
+  originalImage.replace("/upload", "/upload/h_300,w_250");
   res.render("listings/edit.ejs", { listing });
 };
 

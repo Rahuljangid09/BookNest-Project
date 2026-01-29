@@ -1,0 +1,16 @@
+.all-lists {
+  max-width: 96%;
+  margin: 0 auto;
+  padding: 1rem 0;
+}
+
+.listing-link {
+  text-decoration: none;
+}
+
+.all-lists h3 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #212529;
+}

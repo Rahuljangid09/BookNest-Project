@@ -1,0 +1,37 @@
+.f-info {
+  height: 8rem;
+  display: flex;
+  background-color: rgb(221, 221, 245);
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.f-info-links,
+.f-info-social,
+.f-info-name {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.f-info-links a {
+  text-decoration: none;
+  color: #222222;
+}
+
+.f-info-links a:hover {
+  text-decoration: underline;
+}
+
+.f-info-social i {
+  font-size: 1.2rem;
+  margin-right: 1rem;
+}
+
+@media (max-width: 576px) {
+  .f-info {
+    height: auto;
+    padding: 1rem 0;
+  }
+}
