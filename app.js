@@ -20,16 +20,43 @@ const listingRouter = require("./routes/listing");
 const reviewRouter = require("./routes/review");
 const userRouter = require("./routes/user");
 
-main()
-  .then(() => {
-    console.log("connected to DB");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-async function main() {
-  await mongoose.connect(M_URL);
-}
+mongoose.set('strictQuery', false);
+
+const connectDB = async () => {
+  const options = {
+    serverSelectionTimeoutMS: 10000,
+    socketTimeoutMS: 45000,
+    family: 4,
+  };
+
+  const connectWithRetry = () => {
+    mongoose.connect(M_URL, options)
+      .then(() => {
+        console.log("✅ Connected to MongoDB Atlas");
+      })
+      .catch((err) => {
+        console.error("❌ MongoDB connection error:", err.message);
+        console.log("⏳ Retrying connection in 5 seconds...");
+        setTimeout(connectWithRetry, 5000);
+      });
+  };
+
+  connectWithRetry();
+};
+
+mongoose.connection.on('disconnected', () => {
+  console.log('⚠️ MongoDB disconnected. Will auto-reconnect...');
+});
+
+mongoose.connection.on('connected', () => {
+  console.log('✅ MongoDB reconnected');
+});
+
+mongoose.connection.on('error', (err) => {
+  console.error('MongoDB connection error:', err);
+});
+
+connectDB();
 
 const store = MongoStore.create({
   mongoUrl: M_URL,

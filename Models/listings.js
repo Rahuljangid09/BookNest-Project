@@ -35,8 +35,10 @@ const listingSchema = new Schema({
     {
       type: Schema.Types.ObjectId,
       ref:"User"
-    }
+    },
+    categories:[String],
   
+
 });
 
 //mogoose middleware he yee: Explaination:- jb bhi koi listing ke liye findByIdAndDelete call hoga then humara ye middleware us listing me se sare reviews ko bhi delete krdega

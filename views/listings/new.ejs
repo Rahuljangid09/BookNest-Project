@@ -1,9 +1,15 @@
 <%layout("/layouts/boilerplate")%>
 
 <div class="row">
-  <div class="col-8 offset-2 mt-4 mb-5 ">
+  <div class="col-8 offset-2 mt-4 mb-5">
     <h3 class="mb-4">Create New Listing</h3>
-    <form action="/listings" method="post" novalidate class="needs-validation" enctype="multipart/form-data">
+    <form
+      action="/listings"
+      method="post"
+      novalidate
+      class="needs-validation"
+      enctype="multipart/form-data"
+    >
       <div>
         <label for="title" class="form-label">Enter Title:</label>
         <input
@@ -29,36 +35,76 @@
 
       <div>
         <label for="image" class="form-label">Upload Image</label>
-        <input
-          name="listing[image][url]"
-          type="file"
-          class="form-control"
-        />
+        <input name="listing[image][url]" type="file" class="form-control" />
       </div>
+
+      <br />
+<div>
+  <label class="form-label">Select Categories:</label>
+
+  <div class="row">
+    <% 
+      const categories = [
+        "trending",
+        "rooms",
+        "city",
+        "mountain",
+        "camp",
+        "pool",
+        "castle",
+        "snow",
+        "farm"
+      ]; 
+    %>
+
+    <% categories.forEach(cat => { %>
+      <div class="col-6 col-md-4 mb-2">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            name="listing[categories][]"
+            value="<%= cat %>"
+            id="cat-<%= cat %>"
+          />
+          <label
+            class="form-check-label text-capitalize"
+            for="cat-<%= cat %>"
+          >
+            <%= cat %>
+          </label>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</div>
+
+      
+         
 
       <br />
       <div class="row">
         <div class="col-md-4">
-        <label for="price" class="form-label">Enter Price:</label>
-        <input
-          
-          class="form-control"
-          required
-          name="listing[price]"
-          placeholder="enter price"
-        />
-      </div>
-      <br>
-       <div class="col-md-8">
-        <label for="country" class="form-label">Enter country:</label>
-        <input
-          type="text"
-          required
-          name="listing[country]"
-          class="form-control"
-          placeholder="enter country"
-        />
-      </div>
+          <label for="price" class="form-label">Enter Price:</label>
+          <input
+            class="form-control"
+            required
+            name="listing[price]"
+            placeholder="enter price"
+          />
+        </div>
+
+        <br />
+        <div class="col-md-8">
+          <label for="country" class="form-label">Enter country:</label>
+          <input
+            type="text"
+            required
+            name="listing[country]"
+            class="form-control"
+            placeholder="enter country"
+          />
+        </div>
       </div>
 
       <br />
@@ -72,11 +118,9 @@
           class="form-control"
         />
       </div>
-      
 
-     
       <br />
-      <button class="btn btn-dark ">Add</button>
+      <button class="btn btn-dark">Add</button>
     </form>
   </div>
 </div>

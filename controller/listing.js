@@ -1,21 +1,35 @@
 const Listing = require("../Models/listings.js");
 
 module.exports.index = async (req, res) => {
-  const { search } = req.query;
-  let allListings;
+  const { search, category } = req.query;
+
+  let filter = {};
+  // Search logic
   if (search) {
-    allListings = await Listing.find({
-      $or: [
-        { country: { $regex: search, $options: "i" } },
-        { location: { $regex: search, $options: "i" } },
-      ]
-    });
-  } else {
-    allListings = await Listing.find({});
+    filter.$or = [
+      { country: { $regex: search, $options: "i" } },
+      { location: { $regex: search, $options: "i" } },
+    ];
   }
 
-  res.render("listings/index.ejs", { allListings,search });
+  //Category filter
+  if (category) {
+    filter.categories = category.toLowerCase();
+
+  }
+
+  console.log("Category from query:", category);
+  console.log("Final filter:", filter);
+
+  const allListings = await Listing.find(filter);
+
+  res.render("listings/index.ejs", {
+    allListings,
+    search,
+    category,
+  });
 };
+
 
 module.exports.createNewForm = (req, res) => {
   res.render("listings/new.ejs");
@@ -24,7 +38,18 @@ module.exports.createNewForm = (req, res) => {
 module.exports.newListing = async (req, res) => {
   let url = req.file.path;
   let filename = req.file.filename;
-  const newListing = new Listing(req.body.listing);
+
+  const { listing } = req.body;
+
+    //Handle categories safely
+    if (!listing.categories) {
+      listing.categories = [];
+    }
+
+    //Create listing
+    const newListing = new Listing(listing)
+
+  // const newListing = new Listing(req.body.listing);
   newListing.owner = req.user._id;
   newListing.image = { url, filename };
   await newListing.save();
