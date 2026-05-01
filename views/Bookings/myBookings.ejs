@@ -1,0 +1,129 @@
+<%- layout("/layouts/boilerplate") %>
+
+<div class="container my-5">
+
+  <!-- PAGE TITLE -->
+  <h2 class="fw-bold mb-4">My Bookings</h2>
+
+  <!-- EMPTY STATE — shown when user has no bookings -->
+  <% if (bookings.length === 0) { %>
+  <div class="text-center py-5">
+    <i class="bi bi-calendar-x fs-1 text-secondary d-block mb-3"></i>
+    <h5 class="text-muted mb-3">You have no bookings yet.</h5>
+    <a href="/listings" class="btn btn-dark px-4">Explore Listings</a>
+  </div>
+
+  <!-- BOOKINGS GRID — shown when bookings exist -->
+  <% } else { %>
+  <div class="row g-4">
+
+    <% for (let booking of bookings) { %>
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm rounded-3 border">
+
+        <!-- LISTING IMAGE -->
+        <img
+          src="<%= booking.listing.image.url %>"
+          class="card-img-top"
+          alt="<%= booking.listing.title %>"
+          style="height: 200px; object-fit: cover;"
+        />
+
+        <div class="card-body d-flex flex-column">
+
+          <!-- LISTING TITLE -->
+          <h5 class="card-title fw-bold mb-1"><%= booking.listing.title %></h5>
+
+          <!-- LOCATION -->
+          <p class="text-muted small mb-3">
+            <i class="bi bi-geo-alt-fill me-1"></i>
+            <%= booking.listing.location %>, <%= booking.listing.country %>
+          </p>
+
+          <!-- BOOKING DETAILS -->
+          <ul class="list-unstyled small mb-3">
+
+            <!-- CHECK-IN DATE -->
+            <li class="mb-1">
+              <i class="bi bi-box-arrow-in-right me-2 text-success"></i>
+              <strong>Check-in:</strong>
+              <%= new Date(booking.checkIn).toDateString() %>
+            </li>
+
+            <!-- CHECK-OUT DATE -->
+            <li class="mb-1">
+              <i class="bi bi-box-arrow-right me-2 text-danger"></i>
+              <strong>Check-out:</strong>
+              <%= new Date(booking.checkOut).toDateString() %>
+            </li>
+
+            <!-- TOTAL PRICE -->
+            <li class="mb-1">
+              <i class="bi bi-currency-rupee me-2 text-primary"></i>
+              <strong>Total:</strong>
+              &#8377;<%= booking.totalPrice.toLocaleString("en-IN") %>
+            </li>
+
+            <!-- BOOKED ON DATE -->
+            <li class="mb-1">
+              <i class="bi bi-clock-history me-2 text-secondary"></i>
+              <strong>Booked on:</strong>
+              <%= new Date(booking.createdAt).toDateString() %>
+            </li>
+
+          </ul>
+
+          <!-- STATUS BADGE -->
+          <div class="mb-3">
+            <% if (booking.status === "confirmed") { %>
+              <span class="badge bg-success">Confirmed</span>
+            <% } else if (booking.status === "cancelled") { %>
+              <span class="badge bg-danger">Cancelled</span>
+            <% } else { %>
+              <span class="badge bg-secondary"><%= booking.status %></span>
+            <% } %>
+          </div>
+
+          <!-- ACTION BUTTONS — pushed to bottom of card -->
+          <div class="mt-auto d-flex gap-2 flex-wrap">
+
+            <!-- VIEW LISTING BUTTON -->
+            <a
+              href="/listings/<%= booking.listing._id %>"
+              class="btn btn-outline-dark btn-sm"
+            >
+              <i class="bi bi-eye me-1"></i>View Listing
+            </a>
+
+            <!-- CANCEL BOOKING BUTTON — only shown if status is confirmed -->
+            <% if (booking.status === "confirmed") { %>
+            <form
+              action="/bookings/my-bookings/<%= booking._id %>?_method=DELETE"
+              method="POST"
+              onsubmit="return confirm('Are you sure you want to cancel this booking?')"
+            >
+              <button class="btn btn-outline-danger btn-sm">
+                <i class="bi bi-x-circle me-1"></i>Cancel
+              </button>
+            </form>
+            <% } %>
+
+          </div>
+          <!-- END ACTION BUTTONS -->
+
+        </div>
+        <!-- END CARD BODY -->
+
+      </div>
+    </div>
+    <% } %>
+    <!-- END BOOKING LOOP -->
+
+  </div>
+  <!-- END BOOKINGS GRID -->
+
+  <% } %>
+  <!-- END EMPTY/BOOKINGS CONDITIONAL -->
+
+</div>
+<!-- END CONTAINER -->

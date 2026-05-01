@@ -4,6 +4,9 @@
   background-color: rgb(221, 221, 245);
   flex-wrap: wrap;
   text-align: center;
+  color: #e94444;
+  font-weight: 600;
+  background-color: #f1f1f1;
 }
 
 .f-info-links,
@@ -17,7 +20,7 @@
 
 .f-info-links a {
   text-decoration: none;
-  color: #222222;
+  color: #e94444;
 }
 
 .f-info-links a:hover {

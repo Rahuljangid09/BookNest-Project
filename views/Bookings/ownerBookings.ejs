@@ -1,0 +1,30 @@
+<%- layout("/layouts/boilerplate") %>
+<h3>Bookings for <%= listing.title %></h3>
+
+<% if (bookings.length === 0) { %>
+  <p>No bookings yet.</p>
+<% } %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Guest</th>
+      <th>Check-In</th>
+      <th>Check-Out</th>
+      <th>Price</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% for (let booking of bookings) { %>
+      <tr>
+        <td><%= booking.guest.username %></td>
+        <td><%= booking.checkIn.toDateString() %></td>
+        <td><%= booking.checkOut.toDateString() %></td>
+        <td>₹<%= booking.totalPrice %></td>
+        <td><%= booking.status %></td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>

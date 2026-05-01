@@ -9,6 +9,7 @@ module.exports.index = async (req, res) => {
     filter.$or = [
       { country: { $regex: search, $options: "i" } },
       { location: { $regex: search, $options: "i" } },
+      { title: { $regex: search, $options: "i" } }
     ];
   }
 

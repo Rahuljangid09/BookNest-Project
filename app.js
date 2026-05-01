@@ -1,3 +1,7 @@
+const dns = require('dns');
+dns.setDefaultResultOrder('ipv4first');
+dns.setServers(['8.8.8.8', '1.1.1.1']);
+
 if (process.env.NODE_ENV != "production") {
   require("dotenv").config();
 }
@@ -19,6 +23,7 @@ const User = require("./Models/user.js");
 const listingRouter = require("./routes/listing");
 const reviewRouter = require("./routes/review");
 const userRouter = require("./routes/user");
+const bookingRouter = require("./routes/booking");
 
 mongoose.set('strictQuery', false);
 
@@ -110,6 +115,8 @@ app.use(express.static(path.join(__dirname, "/public")));
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
+app.use("/listings/:id/bookings",bookingRouter);
+app.use("/bookings",bookingRouter);
 
 app.get("/", (req, res) => {
   res.redirect("/listings"); // or your main route
