@@ -117,7 +117,7 @@ BookNest is a full-stack web application that allows users to explore listings, 
 ## ⚙️ Setup Instructions
 
 ```bash
-git clone <repo-link>
+git clone https://github.com/Rahuljangid09/BookNest-Project.git
 cd booknest
 npm install
 npm start
