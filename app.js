@@ -1,6 +1,6 @@
-const dns = require('dns');
-dns.setDefaultResultOrder('ipv4first');
-dns.setServers(['8.8.8.8', '1.1.1.1']);
+const dns = require("dns");
+dns.setDefaultResultOrder("ipv4first");
+dns.setServers(["8.8.8.8", "1.1.1.1"]);
 
 if (process.env.NODE_ENV != "production") {
   require("dotenv").config();
@@ -25,7 +25,7 @@ const reviewRouter = require("./routes/review");
 const userRouter = require("./routes/user");
 const bookingRouter = require("./routes/booking");
 
-mongoose.set('strictQuery', false);
+mongoose.set("strictQuery", false);
 
 const connectDB = async () => {
   const options = {
@@ -35,7 +35,8 @@ const connectDB = async () => {
   };
 
   const connectWithRetry = () => {
-    mongoose.connect(M_URL, options)
+    mongoose
+      .connect(M_URL, options)
       .then(() => {
         console.log("✅ Connected to MongoDB Atlas");
       })
@@ -49,16 +50,16 @@ const connectDB = async () => {
   connectWithRetry();
 };
 
-mongoose.connection.on('disconnected', () => {
-  console.log('⚠️ MongoDB disconnected. Will auto-reconnect...');
+mongoose.connection.on("disconnected", () => {
+  console.log("⚠️ MongoDB disconnected. Will auto-reconnect...");
 });
 
-mongoose.connection.on('connected', () => {
-  console.log('✅ MongoDB reconnected');
+mongoose.connection.on("connected", () => {
+  console.log("✅ MongoDB reconnected");
 });
 
-mongoose.connection.on('error', (err) => {
-  console.error('MongoDB connection error:', err);
+mongoose.connection.on("error", (err) => {
+  console.error("MongoDB connection error:", err);
 });
 
 connectDB();
@@ -103,8 +104,6 @@ app.use((req, res, next) => {
   next();
 });
 
-
-
 app.set("view engine", "ejs");
 app.engine("ejs", ejsMate);
 app.set("views", path.join(__dirname, "views"));
@@ -115,8 +114,8 @@ app.use(express.static(path.join(__dirname, "/public")));
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
-app.use("/listings/:id/bookings",bookingRouter);
-app.use("/bookings",bookingRouter);
+app.use("/listings/:id/bookings", bookingRouter);
+app.use("/bookings", bookingRouter);
 
 app.get("/", (req, res) => {
   res.redirect("/listings"); // or your main route
@@ -126,6 +125,15 @@ app.get("/", (req, res) => {
 app.use((err, req, res, next) => {
   let { statusCode = 500, message = "Something went wrong!" } = err;
   res.render("error.ejs", { message });
+});
+
+app.get("/health", async (req, res) => {
+  try {
+    await mongoose.connection.db.admin().ping();
+    res.status(200).json({ status: "ok" });
+  } catch (err) {
+    res.status(500).json({ status: "error" });
+  }
 });
 
 app.listen(8080, () => {
